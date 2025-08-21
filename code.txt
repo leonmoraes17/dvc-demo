@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+import os
+
+df = pd.read_csv('https://raw.githubusercontent.com/araj2/customer-database/master/Ecommerce%20Customers.csv')
+
+df = df.iloc[:, 3:]
+
+df = df[df['Length of Membership'] > 1]
+
+df.drop(columns=['Avg. Session Length'],inplace=True)
+df.to_csv(os.path.join('data','customer.csv'))
+
+work in virtual enviroment. this example we r not doing it.
+
+step 1: git init
+step 2 : dvc init 
+3 : connect git repo to local repo : create git repo then in terminal : git remote add origin https://github.com/leonmoraes17/dvc-demo.git
+--origin is the name we giving our repo.
+4. add remote for dvc = dvc remote add -d myremote D:\Projects\temp_folder_dvc  ( temp_folder_dvc id the remote folder for storing data , this can be a s3 url as well )
+
+5. now we create data_ingestion file and ran the python file and customer.csv was created in data folder
+Since data files are not tracked in github we are going to track it using DVC , so we write the function
+dvc add data/customer.csv ==== this will add the csv for tracking 
+When we run this command two things happen
+a. dvc folder - CAche folder is created - customer.csv goes in stagin area and contains data of customer.csv.dvc  
+b. data folder now has customer.csv and customer.csv.dvc(meta data of customer.csv) and gitignore file is updated to ignore customer.csv file.
+
+6. git add . == this will add the data_ingestion file and customer.csv.dvc file. The customer.csv file is in gitignore file so wont be tracked
+7. git commit 
